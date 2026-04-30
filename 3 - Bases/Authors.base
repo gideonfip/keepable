@@ -1,0 +1,40 @@
+name: Authors Database
+description: Database of all authors
+filters:
+  and:
+    - file.inFolder("Author")
+formulas:
+  LinkedMentions: file.backlinks.filter(!value.asFile().inFolder("2 - Source Materials/Highlights DB")).length
+  MentionedIn: file.backlinks.filter(!value.asFile().inFolder("2 - Source Materials/Highlights DB"))
+properties:
+  file.name:
+    displayName: Author
+  formula.LinkedMentions:
+    displayName: Linked Mentions
+  formula.MentionedIn:
+    displayName: Mentioned In
+  file.ctime:
+    displayName: Created
+views:
+  - type: table
+    name: All Authors
+    order:
+      - file.name
+      - formula.LinkedMentions
+      - formula.MentionedIn
+      - file.ctime
+    sort:
+      - property: formula.LinkedMentions
+        direction: DESC
+  - type: table
+    name: Zero Mentions
+    filters:
+      and:
+        - formula.LinkedMentions == 0
+    order:
+      - file.name
+      - formula.LinkedMentions
+      - file.ctime
+    sort:
+      - property: file.name
+        direction: ASC

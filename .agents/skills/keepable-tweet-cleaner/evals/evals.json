@@ -1,0 +1,17 @@
+{
+  "skill_name": "keepable-tweet-cleaner",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Clean up the X tweets in my source materials.",
+      "expected_output": "Files matching 'Post by @*.md' in the vault's X Tweets folder are updated with sanitized titles/descriptions and renamed.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Standardize the files in my X tweets folder.",
+      "expected_output": "Files matching 'Post by @*.md' in the vault's X Tweets folder are updated with sanitized titles/descriptions and renamed.",
+      "files": []
+    }
+  ]
+}

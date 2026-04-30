@@ -1,0 +1,23 @@
+{
+  "skill_name": "fieldtheory-keepable-import",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Sync my latest Field Theory bookmarks into Keepable and make sure published dates sort correctly in Bases.",
+      "expected_output": "Runs ft sync, imports missing bookmarks into Keepable, and verifies published dates are YYYY-MM-DD.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Import my X bookmarks from Field Theory since 2026-01-01 into Obsidian notes.",
+      "expected_output": "Uses ft list --after 2026-01-01 --json, creates missing X notes, skips duplicates, and reports counts.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Troubleshoot why Field Theory bookmarks are sorting wrong by date in All Links.base.",
+      "expected_output": "Checks imported notes for malformed published values and normalizes Field Theory postedAt values to YYYY-MM-DD.",
+      "files": []
+    }
+  ]
+}

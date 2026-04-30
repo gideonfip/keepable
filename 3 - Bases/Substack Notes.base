@@ -1,0 +1,37 @@
+title: Substack Notes
+filters:
+  or:
+    - file.inFolder("2 - Source Materials/Substack Notes")
+    - contains(file.properties.source, "substack.com/@") && contains(file.properties.source, "/note")
+formulas:
+  Note: link(file.path, if(title, title, file.name))
+properties:
+  formula.Note:
+    displayName: Note
+  author:
+    displayName: Author
+  published:
+    displayName: Published
+  description:
+    displayName: Description
+  source:
+    displayName: Source
+views:
+  - type: table
+    name: All Notes
+    order:
+      - formula.Note
+      - author
+      - published
+    sort:
+      - property: published
+        direction: DESC
+    limit: 50
+    columnSize:
+      formula.Note: 464
+  - type: cards
+    name: Card View
+    order:
+      - formula.Note
+      - author
+      - description

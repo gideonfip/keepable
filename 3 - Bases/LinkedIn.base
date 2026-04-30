@@ -1,0 +1,43 @@
+name: LinkedIn
+description: Database of all LinkedIn content
+filters:
+  and:
+    - file.inFolder("2 - Source Materials/LinkedIn")
+properties:
+  file.name:
+    displayName: Title
+  author:
+    displayName: Author
+  published:
+    displayName: Published
+  description:
+    displayName: Description
+  source:
+    displayName: Source
+  site:
+    displayName: Site
+  tags:
+    displayName: Tags
+views:
+  - type: table
+    name: All LinkedIn
+    order:
+      - file.name
+      - published
+      - author
+    sort:
+      - property: published
+        direction: DESC
+    columnSize:
+      file.name: 459
+      author: 150
+      published: 120
+      description: 300
+  - type: cards
+    name: LinkedIn Cards
+    order:
+      - file.name
+      - published
+    sort:
+      - property: published
+        direction: DESC

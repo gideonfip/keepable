@@ -1,0 +1,31 @@
+filters:
+  and:
+    - file.inFolder("2 - Source Materials/Highlights DB")
+    - file.ext == "md"
+formulas:
+  name_link: 'if(source_note, link(source_note, name), name)'
+properties:
+  highlight:
+    displayName: Highlight
+  formula.name_link:
+    displayName: Name
+  author:
+    displayName: Author
+  date:
+    displayName: Date
+views:
+  - type: table
+    name: All Highlights
+    order:
+      - highlight
+      - formula.name_link
+      - author
+      - date
+    sort:
+      - property: date
+        direction: DESC
+    columnSize:
+      highlight: 700
+      formula.name_link: 320
+      author: 180
+      date: 120

@@ -1,0 +1,46 @@
+filters:
+  and:
+    - file.inFolder("2 - Source Materials/YouTube")
+formulas:
+  Author: if(file.properties.author, file.properties.author, "")
+  Source: if(file.properties.source, file.properties.source, "")
+  WordCount: if(file.properties.wordCount, file.properties.wordCount, "")
+properties:
+  formula.Author:
+    displayName: Author
+  formula.Source:
+    displayName: Source
+  formula.WordCount:
+    displayName: Word Count
+views:
+  - type: table
+    name: All Videos
+    order:
+      - file.name
+      - formula.Author
+      - published
+      - type
+      - tags
+    sort:
+      - property: published
+        direction: DESC
+    columnSize:
+      file.name: 350
+      published: 100
+      note.type: 100
+      note.tags: 150
+      formula.Author: 150
+      formula.Source: 200
+      formula.WordCount: 80
+  - type: card
+    name: By Author
+    groupBy:
+      property: formula.Author
+      direction: ASC
+    order:
+      - file.name
+    sort:
+      - property: published
+        direction: DESC
+    columnSize:
+      file.name: 350

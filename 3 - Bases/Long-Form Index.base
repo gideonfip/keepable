@@ -1,0 +1,45 @@
+name: Long-Form Index
+description: Index of all long-form articles and essays
+filters:
+  and:
+    - file.inFolder("2 - Source Materials/Long-Form")
+formulas:
+  Author: if(file.properties.author, file.properties.author, "")
+  Source: if(file.properties.source, file.properties.source, "")
+  RecentlyAccessed: if(file.properties.last_read, date(file.properties.last_read), file.mtime)
+properties:
+  formula.Author:
+    displayName: Author
+  formula.Source:
+    displayName: Source
+  formula.RecentlyAccessed:
+    displayName: Recently Read/Accessed
+views:
+  - type: table
+    name: All Long-Form
+    order:
+      - file.name
+      - published
+      - formula.RecentlyAccessed
+      - formula.Author
+      - tags
+    sort:
+      - property: published
+        direction: DESC
+    columnSize:
+      file.name: 459
+      formula.RecentlyAccessed: 190
+  - type: table
+    name: Recently Accessed
+    order:
+      - file.name
+      - formula.RecentlyAccessed
+      - formula.Author
+      - published
+      - site
+    sort:
+      - property: formula.RecentlyAccessed
+        direction: DESC
+    columnSize:
+      file.name: 459
+      formula.RecentlyAccessed: 190
