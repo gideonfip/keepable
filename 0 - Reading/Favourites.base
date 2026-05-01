@@ -1,0 +1,45 @@
+name: Favourites
+description: All favourited content across every source folder
+filters:
+  and:
+    - or:
+        - file.inFolder("2 - Source Materials/Landing Pages")
+        - file.inFolder("2 - Source Materials/Long-Form")
+        - file.inFolder("4 - Personal notes")
+        - file.inFolder("2 - Source Materials/Substack Notes")
+        - file.inFolder("2 - Source Materials/X Articles")
+        - file.inFolder("2 - Source Materials/X Tweets")
+        - file.inFolder("2 - Source Materials/LinkedIn")
+        - file.inFolder("2 - Source Materials/YouTube")
+        - file.inFolder("2 - Source Materials/Resources")
+        - file.inFolder("2 - Source Materials/Premium Emails")
+        - file.inFolder("2 - Source Materials/Write With AI")
+    - file.properties.favourites
+formulas:
+  Author: if(file.properties.author, file.properties.author, "")
+  Source: if(file.properties.source, file.properties.source, "")
+  RecentlyAccessed: if(file.properties.last_read, date(file.properties.last_read), file.mtime)
+properties:
+  formula.Author:
+    displayName: Author
+  formula.Source:
+    displayName: Source
+  formula.RecentlyAccessed:
+    displayName: Recently Read/Accessed
+views:
+  - type: table
+    name: Favourites
+    order:
+      - file.name
+      - published
+      - formula.RecentlyAccessed
+      - formula.Author
+      - tags
+    sort:
+      - property: published
+        direction: DESC
+      - property: site
+        direction: DESC
+    columnSize:
+      file.name: 459
+      formula.RecentlyAccessed: 190

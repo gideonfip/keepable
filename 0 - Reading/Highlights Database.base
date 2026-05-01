@@ -3,7 +3,7 @@ filters:
     - file.inFolder("2 - Source Materials/Highlights DB")
     - file.ext == "md"
 formulas:
-  name_link: 'if(source_note, link(source_note, name), name)'
+  name_link: if(source_note, link(source_note, name), name)
 properties:
   highlight:
     displayName: Highlight

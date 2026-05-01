@@ -1,0 +1,34 @@
+name: Premium Emails
+description: Index of premium emails (Dan Koe & Write With AI)
+filters:
+  or:
+    - file.inFolder("2 - Source Materials/Premium Emails")
+    - file.inFolder("2 - Source Materials/Write With AI")
+formulas:
+  Author: if(file.properties.author, file.properties.author, "")
+  Source: if(file.properties.source, file.properties.source, "")
+properties:
+  formula.Author:
+    displayName: Author
+  formula.Source:
+    displayName: Source
+views:
+  - type: table
+    name: All Premium Emails
+    order:
+      - file.name
+      - formula.Author
+      - published
+      - formula.Source
+      - tags
+    sort:
+      - property: published
+        direction: DESC
+    columnSize:
+      file.name: 400
+      published: 120
+      note.tags: 150
+      formula.Author: 150
+      formula.Source: 250
+  - type: table
+    name: View

@@ -4,6 +4,7 @@ filters:
   or:
     - file.inFolder("2 - Source Materials/Landing Pages")
     - file.inFolder("2 - Source Materials/Long-Form")
+    - file.inFolder("4 - Personal notes")
     - file.inFolder("2 - Source Materials/Substack Notes")
     - file.inFolder("2 - Source Materials/X Articles")
     - file.inFolder("2 - Source Materials/X Tweets")
@@ -23,6 +24,8 @@ properties:
     displayName: Source
   formula.RecentlyAccessed:
     displayName: Recently Read/Accessed
+  file.properties.read-later:
+    displayName: Read Later
 views:
   - type: table
     name: All Links
@@ -31,9 +34,12 @@ views:
       - published
       - formula.RecentlyAccessed
       - formula.Author
+      - read-later
       - tags
     sort:
       - property: published
+        direction: DESC
+      - property: site
         direction: DESC
     columnSize:
       file.name: 459

@@ -1,0 +1,26 @@
+filters:
+  and:
+    - file.inFolder("2 - Source Materials/nuhgid")
+formulas:
+  Source: if(file.properties.source, file.properties.source, "")
+properties:
+  formula.Source:
+    displayName: Source
+views:
+  - type: table
+    name: All nuhgid Tweets
+    order:
+      - file.name
+      - published
+      - description
+      - formula.Source
+      - tags
+    sort:
+      - property: published
+        direction: DESC
+    columnSize:
+      file.name: 400
+      published: 120
+      description: 300
+      formula.Source: 250
+      tags: 150
