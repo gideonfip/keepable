@@ -7,6 +7,7 @@ description: "Obsidian is available for all major desktop and mobile platforms. 
 tags:
   - defuddle
 favourites: false
+read-later: false
 ---
 
 Obsidian is available for all major desktop and mobile platforms. These are all the supported ways to download and install Obsidian.

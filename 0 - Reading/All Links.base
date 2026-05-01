@@ -34,7 +34,6 @@ views:
       - published
       - formula.RecentlyAccessed
       - formula.Author
-      - read-later
       - tags
     sort:
       - property: published

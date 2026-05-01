@@ -9,6 +9,7 @@ description: "Escape the AI cost war by building effective Skills. The only way 
 tags:
   - defuddle
 favourites: false
+read-later: false
 ---
 
 ## Transcript

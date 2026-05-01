@@ -9,6 +9,7 @@ description: "A collection of Keepable web clipper templates built to work toget
 tags:
   - defuddle
 favourites: false
+read-later: false
 ---
 
 A collection of [Keepable](https://github.com/gideonfip/keepable) web clipper templates. Built to work together with your Keepable database.

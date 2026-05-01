@@ -7,6 +7,7 @@ description: "The free and flexible app for your private thoughts."
 tags:
   - defuddle
 favourites: false
+read-later: false
 ---
 
 ## Sharpen your thinking.

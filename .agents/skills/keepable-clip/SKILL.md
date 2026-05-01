@@ -89,7 +89,7 @@ grep -r "<source-url>" "<vault-path>" --include="*.md" -l
 
 ### 6. Create Frontmatter
 
-Take the frontmatter directly from defuddle output. Always add `tags` and `favourites` fields to every new entry.
+Take the frontmatter directly from defuddle output. Always add `tags`, `favourites`, and `read-later` fields to every new entry.
 
 Always include `tags` with at least the `defuddle` tag. If defuddle output includes additional tags, add them too:
 ```yaml
@@ -100,6 +100,11 @@ tags:
 Always include `favourites` defaulting to false:
 ```yaml
 favourites: false
+```
+
+Always include `read-later` defaulting to false:
+```yaml
+read-later: false
 ```
 
 ```yaml
@@ -114,6 +119,7 @@ description: "The description from defuddle or first few sentences"
 tags:
   - defuddle
 favourites: false
+read-later: false
 ---
 ```
 
@@ -125,6 +131,7 @@ Important:
 - published comes from defuddle (not date field)
 - Always add `tags` with at least `defuddle`
 - Always add `favourites: false`
+- Always add `read-later: false`
 
 ### 7. Save to Vault
 
@@ -170,8 +177,9 @@ Each category has a `.base` file in `3 - Bases/` that auto-indexes content.
 8. Don't put non-X content in X Articles/ — only X long-form threads belong there
 9. Don't forget to add `tags` with at least `defuddle` to every new entry
 10. Don't forget to add `favourites: false` to every new entry
-11. Don't leave published empty for YouTube Shorts — use the Shorts-specific curl commands to fetch the upload date
-12. Don't clip content that's already in the vault — always check for duplicate source URLs first
+11. Don't forget to add `read-later: false` to every new entry
+13. Don't leave published empty for YouTube Shorts — use the Shorts-specific curl commands to fetch the upload date
+14. Don't clip content that's already in the vault — always check for duplicate source URLs first
 
 ### 10. Post-Clip Processing (Optional)
 

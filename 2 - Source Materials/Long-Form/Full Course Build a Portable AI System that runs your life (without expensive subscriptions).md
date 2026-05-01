@@ -9,6 +9,7 @@ description: "Automate the work you hate with a Portable AI System that you trul
 tags:
   - defuddle
 favourites: false
+read-later: false
 ---
 
 ## ==Automate the work you hate with a Portable AI System that you truly own==, without being locked in with one model provider
