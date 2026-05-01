@@ -11,7 +11,7 @@ tags:
 favourites: false
 ---
 
-## Automate the work you hate with a Portable AI System that you truly own, without being locked in with one model provider
+## ==Automate the work you hate with a Portable AI System that you truly own==, without being locked in with one model provider
 
 "I know AI is so important, but I'm completely overwhelmed with all the options, and I have no idea how to start."
 

@@ -3,9 +3,11 @@
 
 An Obsidian vault for people who want to bookmark and highlight a wide variety of sources.
 
-Clip articles, tweets, YouTube videos, Reddit posts, and more — then query, filter, and surface them with [Obsidian Bases](https://obsidian.md/bases), while highlighting in Reader View. Includes a set of AI agent skills that automate the tedious parts.
+Keepable runs locally on your device and serves as a free read-later app built completely on Obsidian, with a suite of Agent Skills that automate the tedious parts of maintaining the database.
 
-Used in conjunction with the [Obsidian Web Clipper](https://obsidian.md/clipper) and my [Clipper Templates](https://github.com/gideonfip/keepable-clipper-templates) for quick additions to your Keepable vault.
+Clip articles, tweets, YouTube videos, Reddit posts, and more — then query, filter, and surface them with [Obsidian Bases](https://obsidian.md/bases), while highlighting in Reader View.
+
+Used together with the [Obsidian Web Clipper](https://obsidian.md/clipper) and my [Clipper Templates](https://github.com/gideonfip/keepable-clipper-templates) for quick additions to your Keepable vault.
 
 ---
 
@@ -13,6 +15,8 @@ Used in conjunction with the [Obsidian Web Clipper](https://obsidian.md/clipper)
 
 ```
 Keepable/
+├── 0 - Reading/            # Reading-related Base files (All Links, Favourites, Highlights, Read Later)
+├── 1 - Inbox/              # Default inbox for quick capture
 ├── 2 - Source Materials/   # All clipped content, organized by type
 │   ├── Books/              # Book notes and highlights
 │   ├── GitHub/             # GitHub repository readmes
@@ -26,9 +30,9 @@ Keepable/
 │   ├── Substack Notes/     # Substack short-form notes
 │   ├── X Tweets/           # Short X/Twitter posts
 │   └── YouTube/            # YouTube videos with transcripts
-├── 3 - Bases/              # Obsidian Bases database views (11 .base files)
+├── 3 - Bases/              # Obsidian Bases database views (10 .base files)
+├── 4 - Personal notes/     # Private personal notes (not synced to public repo)
 ├── Author/                 # Auto-generated author pages
-├── x/Templates/            # Note templates (Journal entry, Main note)
 ├── .agents/skills/         # AI agent skill definitions (13 skills)
 ├── Dashboard.md            # Main dashboard with todo and missing links
 ├── convert_tags_to_kebab.cjs
@@ -58,14 +62,23 @@ This makes every note queryable via Obsidian Bases or Dataview.
 
 ## Obsidian Bases
 
-The `3 - Bases/` folder contains database views for every content type. Open any `.base` file in Obsidian to see a live, filterable table of your notes.
+The `0 - Reading/` and `3 - Bases/` folders contain database views for every content type. Open any `.base` file in Obsidian to see a live, filterable table of your notes.
+
+### 0 - Reading/ (reading workflow)
 
 | Base | What it shows |
 |------|--------------|
 | `All Links` | Master index of all content across every source folder |
+| `Favourites` | All bookmarked and favourite content |
+| `Highlights Database` | All `==highlighted==` text across the vault with clickable source links |
+| `Read Later` | Content queued for reading with read-later status |
+
+### 3 - Bases/ (content indexes)
+
+| Base | What it shows |
+|------|--------------|
 | `Authors` | All authors with linked article counts |
 | `Dashboard items` | Todo items, recently modified, missing links |
-| `Highlights Database` | All `==highlighted==` text across the vault |
 | `Landing Pages Index` | All clipped landing pages |
 | `LinkedIn` | All LinkedIn content |
 | `Long-Form Index` | All articles, essays, Substack posts |
@@ -82,16 +95,15 @@ The `.agents/skills/` folder contains skill definitions for AI agents (Claude, K
 
 ### Keepable skills
 
-| Skill | What it does |
-|-------|-------------|
-| `keepable-clip` | Clips a URL into the vault — fetches content, extracts metadata, creates the note in the right folder, creates/links the author page |
-| `keepable-author` | Creates and manages author pages from article metadata |
-| `keepable-tag` | Analyzes content and adds appropriate tags following vault conventions |
-| `keepable-tweet-cleaner` | Renames X/Twitter notes from generic "Post by @user on X" titles to the actual content |
-| `keepable-link-cleaner` | Standardizes X, LinkedIn, and Substack Notes filenames — matches title and filename to the description text |
-| `keepable-yaml-cleaner` | Audits and repairs YAML frontmatter to meet Obsidian Property standards |
-| `keepable-highlight` | Scans all notes for `==highlighted==` text and builds the Highlights Database |
-| `fieldtheory-keepable-import` | Imports X/Twitter bookmarks from Field Theory (`ft`) into the vault with correct `YYYY-MM-DD` dates |
+| Skill                         | What it does                                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `keepable-clip`               | Clips a URL into the vault — fetches content, extracts metadata, creates the note in the right folder, creates/links the author page |
+| `keepable-author`             | Creates and manages author pages from article metadata                                                                               |
+| `keepable-tag`                | Analyzes content and adds appropriate tags following vault conventions                                                               |
+| `keepable-link-cleaner`       | Standardizes X, LinkedIn, and Substack Notes filenames — matches title and filename to the description text                          |
+| `keepable-yaml-cleaner`       | Audits and repairs YAML frontmatter to meet Obsidian Property standards                                                              |
+| `keepable-highlight`          | Scans all notes for `==highlighted==` text and builds the Highlights Database                                                        |
+| `fieldtheory-keepable-import` | Imports X/Twitter bookmarks from Field Theory (`ft`) into the vault with correct `YYYY-MM-DD` dates                                  |
 
 ### Obsidian reference skills
 
@@ -188,7 +200,7 @@ python3 .agents/skills/fieldtheory-keepable-import/scripts/import_fieldtheory_to
 3. Open Obsidian → "Open folder as vault" → select this folder
 4. Enable community plugins: Settings → Community plugins → enable `Reader Highlighter Tags` and `Style Settings`
 5. Open `Dashboard.md` to see your todo items
-6. Browse `3 - Bases/All Links.base` to see all content
+6. Browse `0 - Reading/All Links.base` to see all content
 7. Start clipping with the `keepable-clip` skill or the [web clipper templates](https://github.com/gideonfip/keepable-clipper-templates)
 
 ---
@@ -205,4 +217,12 @@ python3 .agents/skills/fieldtheory-keepable-import/scripts/import_fieldtheory_to
 
 ## Credits
 
-Inspired and forked by the [PenguinVault](https://github.com/frogpal/PenguinVault) by frogpal, [Obsidian Skills](https://github.com/kepano/obsidian-skills) by kepano, and [Reader Highlighter Tags](https://github.com/DuckTapeKiller/obsidian-reader-highlighter-tags) by DuckTapeKiller.
+Inspired by the following libraries:
+
+- [PenguinVault](https://github.com/frogpal/PenguinVault) by frogpal
+- [Obsidian Skills](https://github.com/kepano/obsidian-skills) by kepano
+- [Reader Highlighter Tags](https://github.com/DuckTapeKiller/obsidian-reader-highlighter-tags) by DuckTapeKiller
+
+## Notes
+
+Keepable can be used together with the [Portable AI System](https://portable.gideonfip.com/).
