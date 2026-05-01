@@ -244,7 +244,7 @@ def save_state(state_file: Path, source_hashes: dict[str, str]) -> None:
 def run(vault_root: Path, dry_run: bool, full_rebuild: bool) -> tuple[int, int, int, int]:
     source_root = vault_root / "2 - Source Materials"
     out_dir = source_root / "Highlights DB"
-    base_file = vault_root / "3 - Bases" / "Highlights Database.base"
+    base_file = vault_root / "0 - Reading" / "Highlights Database.base"
     state_file = vault_root / ".agents" / "skills" / "keepable-highlight" / "state.json"
 
     if not source_root.exists():
@@ -386,7 +386,7 @@ def main() -> None:
         print(f"[UPDATED] Records upserted: {records_written}")
         print(f"[UPDATED] Records deleted: {records_deleted}")
         print("[UPDATED] Synced: 2 - Source Materials/Highlights DB")
-        print("[UPDATED] Wrote: 3 - Bases/Highlights Database.base")
+        print("[UPDATED] Wrote: 0 - Reading/Highlights Database.base")
 
 
 if __name__ == "__main__":

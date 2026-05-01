@@ -14,7 +14,7 @@ Create a single, refreshable highlight database across the vault.
 1. Scans markdown notes under `2 - Source Materials/`
 2. Extracts highlights marked as `==...==` or `====...====`
 3. Incrementally syncs generated notes in `2 - Source Materials/Highlights DB/`
-4. Writes/updates `3 - Bases/Highlights Database.base`
+4. Writes/updates `0 - Reading/Highlights Database.base`
 
 Each generated highlight note includes:
 - `name`
@@ -58,4 +58,4 @@ python3 ".agents/skills/keepable-highlight/scripts/refresh_highlights_db.py" --v
 ## Expected outputs
 
 - `2 - Source Materials/Highlights DB/*.md` generated records
-- `3 - Bases/Highlights Database.base` with clickable Name links via formula
+- `0 - Reading/Highlights Database.base` with clickable Name links via formula
