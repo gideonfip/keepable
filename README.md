@@ -5,7 +5,7 @@ An Obsidian vault for people who want to bookmark and highlight a wide variety o
 
 Keepable runs locally on your device and serves as a free read-later app built completely on Obsidian, with a suite of Agent Skills that automate the tedious parts of maintaining the database.
 
-Clip articles, tweets, YouTube videos, Reddit posts, and more — then query, filter, and surface them with [Obsidian Bases](https://obsidian.md/bases), while highlighting in Reader View.
+Clip articles, tweets, YouTube videos, Reddit posts, and more. Then query, filter, and surface them with [Obsidian Bases](https://obsidian.md/bases), while highlighting in Reader View.
 
 Used together with the [Obsidian Web Clipper](https://obsidian.md/clipper) and my [Clipper Templates](https://github.com/gideonfip/keepable-clipper-templates) for quick additions to your Keepable vault.
 
