@@ -48,14 +48,24 @@ python3 ".agents/skills/keepable-highlight/scripts/refresh_highlights_db.py" --f
 python3 ".agents/skills/keepable-highlight/scripts/refresh_highlights_db.py" --vault "/absolute/path/to/vault"
 ```
 
+## How highlights are detected
+
+The script scans for `==...==` and `====...====` markers with the following safeguards:
+
+- **Word boundaries** — `==` must NOT be adjacent to word characters (`a-zA-Z0-9_`). This prevents base64 padding (`I==)`) in embedded images from being matched as highlight markers.
+- **Code block stripping** — Markdown fenced code blocks (` ``` ``` `) and inline code (`` ` ``) are removed before scanning. This prevents `==` comparison operators in code from being matched.
+- **Stale index cleanup** — Orphaned entries (indices no longer present in the source file) are deleted on every run, even for unchanged sources.
+
 ## Important behavior
 
 - Default mode is incremental sync (add/update/remove only where source notes changed).
+- Stale entries are always cleaned up regardless of whether the source file changed.
 - Use `--full-rebuild` to force a destructive rebuild of all generated records.
 - Only markdown files under `2 - Source Materials/` are scanned.
+- The `Emails` folder is excluded from scanning.
 - Existing user-authored notes outside `Highlights DB/` are never modified.
 
 ## Expected outputs
 
 - `2 - Source Materials/Highlights DB/*.md` generated records
-- `0 - Reading/Highlights Database.base` with clickable Name links via formula
+- `0 - Reading/🖊️ Highlights Database.base` with clickable Name links via formula

@@ -10,7 +10,7 @@ from pathlib import Path
 
 FRONTMATTER_RE = re.compile(r"^---\n([\s\S]*?)\n---\n?", re.M)
 FIELD_RE = re.compile(r"^(title|author|published):\s*(.*)$", re.M)
-HIGHLIGHT_RE = re.compile(r"(={2,})([\s\S]*?)\1")
+HIGHLIGHT_RE = re.compile(r"(?<!\w)(={2,})([\s\S]*?)\1(?!\w)")
 
 
 def normalize_author(raw: str) -> str:
@@ -39,13 +39,6 @@ def normalize_author(raw: str) -> str:
         return wikilink.group(0)
 
     return value
-
-
-def normalize_date(raw: str) -> str:
-    raw = raw.strip()
-    if "T" in raw:
-        return raw.split("T")[0]
-    return raw
 
 
 def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
@@ -102,10 +95,11 @@ def safe_filename_part(value: str, limit: int = 80) -> str:
 def build_base_content() -> str:
     return """filters:
   and:
-    - file.inFolder(\"2 - Source Materials/Highlights DB\")
-    - file.ext == \"md\"
+    - file.inFolder("2 - Source Materials/Highlights DB")
+    - file.ext == "md"
 formulas:
   name_link: 'if(source_note, link(source_note, name), name)'
+  published_date: 'if(source_note, file(source_note).properties.published, date)'
 properties:
   highlight:
     displayName: Highlight
@@ -113,7 +107,7 @@ properties:
     displayName: Name
   author:
     displayName: Author
-  date:
+  formula.published_date:
     displayName: Date
 views:
   - type: table
@@ -122,38 +116,50 @@ views:
       - highlight
       - formula.name_link
       - author
-      - date
+      - formula.published_date
     sort:
-      - property: date
+      - property: formula.published_date
         direction: DESC
     columnSize:
       highlight: 700
       formula.name_link: 320
       author: 180
-      date: 120
+      formula.published_date: 120
 """
+
+
+EXCLUDED_FOLDERS = {"Highlights DB", "Emails"}
+EXCLUDED_FILES = {"Highlights View.md", "Highlights.md"}
 
 
 def source_files(source_root: Path) -> list[Path]:
     files: list[Path] = []
     for md_file in source_root.rglob("*.md"):
-        if "Highlights DB" in md_file.parts:
+        if any(f in md_file.parts for f in EXCLUDED_FOLDERS):
             continue
-        if md_file.name == "Highlights View.md":
-            continue
-        if md_file == source_root / "Long-Form" / "Highlights.md":
+        if md_file.name in EXCLUDED_FILES:
             continue
         files.append(md_file)
     return files
 
 
+CODE_FENCE_RE = re.compile(r"```[\s\S]*?```", re.M)
+INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
+
+def strip_code_blocks(text: str) -> str:
+    text = CODE_FENCE_RE.sub("", text)
+    text = INLINE_CODE_RE.sub("", text)
+    return text
+
+
 def extract_entries(vault_root: Path, source_file: Path) -> list[dict[str, str]]:
     text = source_file.read_text(encoding="utf-8", errors="ignore")
     fm, body = parse_frontmatter(text)
+    body = strip_code_blocks(body)
 
     article = fm.get("title", source_file.stem).strip()
     author = fm.get("author", "").strip()
-    published = normalize_date(fm.get("published", ""))
+    published = fm.get("published", "").strip()
     rel_source = source_file.relative_to(vault_root).as_posix()
 
     entries: list[dict[str, str]] = []
@@ -244,7 +250,7 @@ def save_state(state_file: Path, source_hashes: dict[str, str]) -> None:
 def run(vault_root: Path, dry_run: bool, full_rebuild: bool) -> tuple[int, int, int, int]:
     source_root = vault_root / "2 - Source Materials"
     out_dir = source_root / "Highlights DB"
-    base_file = vault_root / "0 - Reading" / "Highlights Database.base"
+    base_file = vault_root / "0 - Reading" / "🖊️ Highlights Database.base"
     state_file = vault_root / ".agents" / "skills" / "keepable-highlight" / "state.json"
 
     if not source_root.exists():
@@ -314,11 +320,19 @@ def run(vault_root: Path, dry_run: bool, full_rebuild: bool) -> tuple[int, int, 
         entries = extract_entries(vault_root, source_path)
         highlights_total += len(entries)
 
-        if rel_source not in changed_sources:
-            continue
-
         existing_for_source = existing_index.get(rel_source, {})
         new_indices = set(range(1, len(entries) + 1))
+
+        # Always delete stale entries (indices no longer present in current file)
+        stale_indices = set(existing_for_source.keys()) - new_indices
+        for idx in stale_indices:
+            p = existing_for_source[idx]
+            if not dry_run and p.exists():
+                p.unlink()
+            records_deleted += 1
+
+        if rel_source not in changed_sources:
+            continue
 
         # Upsert changed entries
         for idx, entry in enumerate(entries, start=1):
@@ -332,14 +346,6 @@ def run(vault_root: Path, dry_run: bool, full_rebuild: bool) -> tuple[int, int, 
                 target = out_dir / note_name
             target.write_text(build_record_content(entry), encoding="utf-8")
             records_written += 1
-
-        # Delete stale entries if count shrank
-        stale_indices = set(existing_for_source.keys()) - new_indices
-        for idx in stale_indices:
-            p = existing_for_source[idx]
-            if not dry_run and p.exists():
-                p.unlink()
-            records_deleted += 1
 
     if not dry_run:
         base_file.parent.mkdir(parents=True, exist_ok=True)

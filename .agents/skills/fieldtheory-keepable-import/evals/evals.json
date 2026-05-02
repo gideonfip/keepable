@@ -15,7 +15,7 @@
     },
     {
       "id": 3,
-      "prompt": "Troubleshoot why Field Theory bookmarks are sorting wrong by date in All Links.base.",
+      "prompt": "Troubleshoot why Field Theory bookmarks are sorting wrong by date in 📎 All Links.base.",
       "expected_output": "Checks imported notes for malformed published values and normalizes Field Theory postedAt values to YYYY-MM-DD.",
       "files": []
     }

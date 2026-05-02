@@ -201,7 +201,7 @@ python3 .agents/skills/fieldtheory-keepable-import/scripts/import_fieldtheory_to
 3. Open Obsidian → "Open folder as vault" → select this folder
 4. Enable community plugins: Settings → Community plugins → enable `Reader Highlighter Tags` and `Style Settings`
 5. Open `Dashboard.md` to see your todo items
-6. Browse `0 - Reading/All Links.base` to see all content
+6. Browse `0 - Reading/📎 All Links.base` to see all content
 7. Start clipping with the `keepable-clip` skill or the [web clipper templates](https://github.com/gideonfip/keepable-clipper-templates)
 
 ---
