@@ -357,7 +357,7 @@ def main() -> int:
     parser.add_argument("--before", help="Only import bookmarks posted before YYYY-MM-DD")
     parser.add_argument("--limit", type=int, default=100, help="Manual ft list limit, or since-last-sync batch size")
     parser.add_argument("--since-last-sync", action="store_true", help="Only import bookmarks newer than the saved Field Theory cursor")
-    parser.add_argument("--state-file", type=Path, help="Cursor state file path (default: <vault>/.agents/fieldtheory-keepable-import-state.json)")
+    parser.add_argument("--state-file", type=Path, help="Cursor state file path (default: <vault>/.agents/keepable-fieldtheory-import-state.json)")
     parser.add_argument("--sync", action="store_true", help="Run ft sync before importing")
     parser.add_argument("--rebuild", action="store_true", help="Use ft sync --rebuild")
     parser.add_argument("--browser", help="Browser to read X session from, e.g. chrome or brave")
@@ -369,7 +369,7 @@ def main() -> int:
         sys.stderr.write(f"Vault path does not exist: {vault}\n")
         return 1
 
-    state_file = args.state_file or (vault / ".agents" / "fieldtheory-keepable-import-state.json")
+    state_file = args.state_file or (vault / ".agents" / "keepable-fieldtheory-import-state.json")
 
     if args.sync:
         sync_cmd = ["ft", "sync", "--yes", "--no-media"]
