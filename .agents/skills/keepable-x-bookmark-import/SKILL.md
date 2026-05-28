@@ -1,11 +1,11 @@
 ---
-name: keepable-fieldtheory-import
+name: keepable-x-bookmark-import
 description: "Import the latest X/Twitter bookmarks from Field Theory (`ft`) into the Keepable Obsidian vault. Use this skill whenever the user wants to sync recent browser/X bookmarks, import Field Theory bookmarks into Obsidian, refresh Keepable from `~/.ft-bookmarks`, or troubleshoot bookmark dates in Keepable. This skill is especially important when `published` dates must be parsed correctly as `YYYY-MM-DD`."
 user-invokable: true
 disable-model-invocation: false
 ---
 
-# Field Theory to Keepable Import
+# X Bookmark to Keepable Import
 
 Sync the local Field Theory bookmark store, collect the latest bookmark URLs, and import missing bookmarks into the Keepable vault using the same destination/frontmatter conventions as `keepable-clip`.
 
@@ -40,13 +40,13 @@ Store the vault path and browser preference for subsequent runs.
 For routine imports, use the lightweight cursor mode. It records the last Field Theory bookmark/sync timestamp processed and only imports newer entries next time:
 
 ```bash
-python3 .agents/skills/keepable-fieldtheory-import/scripts/import_fieldtheory_to_keepable.py --vault "<vault-path>" --sync --browser <browser> --since-last-sync
+python3 .agents/skills/keepable-x-bookmark-import/scripts/import_fieldtheory_to_keepable.py --vault "<vault-path>" --sync --browser <browser> --since-last-sync
 ```
 
 The cursor is stored in:
 
 ```text
-<vault-path>/.agents/keepable-fieldtheory-import-state.json
+<vault-path>/.agents/keepable-x-bookmark-import-state.json
 ```
 
 On the first `--since-last-sync` run, the script initializes the cursor from the current Field Theory database and imports no history. This is intentional: it avoids reprocessing the whole bookmark archive after the vault has already been bootstrapped.
@@ -56,7 +56,7 @@ In `--since-last-sync` mode, `--limit` is a batch size, not a hard total cap. Th
 For a manual backfill window, run the bundled importer script with `--after`:
 
 ```bash
-python3 .agents/skills/keepable-fieldtheory-import/scripts/import_fieldtheory_to_keepable.py --vault "<vault-path>" --sync --browser <browser> --after 2026-01-01
+python3 .agents/skills/keepable-x-bookmark-import/scripts/import_fieldtheory_to_keepable.py --vault "<vault-path>" --sync --browser <browser> --after 2026-01-01
 ```
 
 Use `--after YYYY-MM-DD` to control the import window. If the user asks for the latest bookmarks and gives no date, use a recent window such as `--after 2026-01-01` or the date implied by their request.
@@ -64,7 +64,7 @@ Use `--after YYYY-MM-DD` to control the import window. If the user asks for the 
 For a dry run:
 
 ```bash
-python3 .agents/skills/keepable-fieldtheory-import/scripts/import_fieldtheory_to_keepable.py --vault "<vault-path>" --sync --browser <browser> --after 2026-01-01 --dry-run
+python3 .agents/skills/keepable-x-bookmark-import/scripts/import_fieldtheory_to_keepable.py --vault "<vault-path>" --sync --browser <browser> --after 2026-01-01 --dry-run
 ```
 
 ## Field Theory Sync Rules
