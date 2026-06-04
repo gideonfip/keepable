@@ -44,17 +44,20 @@ From the URL, determine which category folder to use:
 Always use defuddle with `--md` flag to get clean markdown output:
 
 ```bash
-cd ~/defuddle && node dist/cli.js parse "<URL>" --md
+defuddle parse "<URL>" --md
 ```
 
-**Important**: If the defuddle output contains a raw `<article data-defuddle="">` HTML wrapper instead of plain markdown, strip all HTML tags and convert to plain text before saving. The note body must never contain raw HTML — only clean markdown/plaintext.
+**CRITICAL — Preserve markdown formatting**: defuddle already produces clean markdown with proper formatting. **Never strip markdown syntax** (bold `**text**`, headers `###`, wikilinks, etc.). The transcript from defuddle for YouTube already includes `**0:00** ·` timestamps and `### Chapter` headers — preserve these exactly as defuddle outputs them.
 
-Extract metadata fields:
-- title
-- author
-- description
-- published (or date as fallback)
-- source (the original URL)
+**Only strip HTML if truly needed**: If the defuddle output contains a raw `<article data-defuddle="">` HTML wrapper, use a proper HTML-to-markdown converter (e.g. `turndown` or regex that only strips actual HTML tags `<...>`) — never blindly strip all angle brackets or special characters. In practice, current defuddle (v0.18+) rarely produces HTML wrappers.
+
+Extract these metadata fields from defuddle's output:
+- `title` — clipped title
+- `author` — channel/creator name
+- `description` — video/page description
+- `published` — publication date (or `date` as fallback)
+- `source` — the original URL
+- `cover` — thumbnail/OG image URL
 
 For YouTube videos where published is empty, fetch the date from the page:
 ```bash
@@ -156,10 +159,38 @@ Check if author already exists in `Author/` folder:
 
 Each category has a `.base` file in `3 - Bases/` that auto-indexes content.
 
+### 3b. YouTube Post-Processing
+
+After defuddle extraction, apply these YouTube-specific formatting steps:
+
+**A. Format the description** (the text between the video embed and `## Transcript`):
+- Split on emoji markers (🔴, 😀, 📺, ▬, 🎬) by inserting double-newline before each
+- Format chapter timestamps as a readable list:
+  ```
+  00:00 Question 1
+  02:49 Question 2
+  ...
+  ```
+- If the description ends with `...` (truncated), replace the body description with the frontmatter `description` field content for the full text
+- Preserve `Related videos` sections with their links
+
+**B. Add cover image at bottom** — append after the transcript:
+```markdown
+![](https://i.ytimg.com/vi/<VIDEO_ID>/maxresdefault.jpg)
+```
+Extract `<VIDEO_ID>` from the URL (e.g. `9CM5uO2fXWg` from `watch?v=9CM5uO2fXWg`).
+
+**C. Preserve transcript formatting** — defuddle's YouTube transcript output already includes:
+- `### Question N` / chapter headers
+- `**0:00** ·` timestamp markers at segment boundaries
+- Proper paragraph grouping
+
+**Do NOT modify the transcript at all** — keep all timestamps, headers, and line breaks exactly as defuddle outputs them.
+
 ## Special Cases
 
 - X/Twitter Threads vs Single Tweets: Long threads go to X Articles/, short posts to X Tweets/
-- YouTube Videos: Extract full transcript, include chapter timestamps
+- YouTube Videos: **Keep defuddle transcript as-is** with timestamps and chapter headers. Format description section with line breaks (see 3b). Add cover image at bottom.
 - YouTube Shorts: For published date, the standard defuddle extraction may not work. Use the Shorts-specific curl commands in Step 3 to fetch the upload date. Extract full transcript.
 - Reddit Posts: Treat as Reddit/ category, not X Articles/
 - GitHub Repos: Treat as GitHub/ category
@@ -178,8 +209,10 @@ Each category has a `.base` file in `3 - Bases/` that auto-indexes content.
 9. Don't forget to add `tags` with at least `defuddle` to every new entry
 10. Don't forget to add `favourites: false` to every new entry
 11. Don't forget to add `read-later: false` to every new entry
-13. Don't leave published empty for YouTube Shorts — use the Shorts-specific curl commands to fetch the upload date
-14. Don't clip content that's already in the vault — always check for duplicate source URLs first
+12. Don't leave published empty for YouTube Shorts — use the Shorts-specific curl commands to fetch the upload date
+13. Don't clip content that's already in the vault — always check for duplicate source URLs first
+14. **NEVER strip markdown formatting** from defuddle output — timestamps (`**0:00** ·`), headers (`###`), bold, links, etc. must be preserved. Only strip actual HTML tags if an `<article>` wrapper exists, and only the HTML tags themselves, not markdown syntax.
+15. **Don't use `cd ~/defuddle && node dist/cli.js`** — defuddle is installed globally via npm, use just `defuddle parse "<URL>" --md`
 
 ### 10. Post-Clip Processing (Optional)
 
